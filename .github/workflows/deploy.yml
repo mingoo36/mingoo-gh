@@ -44,11 +44,11 @@ jobs:
 
           # EC2 서버 접속 후 Docker 명령 실행
           # 현재 실행 중인 동일한 컨테이너가 있다면 삭제한다.
-          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker rm -f my-express-app || true"
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker rm -f my-app || true"
 
           # GHCR로부터 최신 이미지 pull
           ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_PAT }}"
-          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker pull ghcr.io/${{ github.repository_owner }}/my-express-app:latest"
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker pull ghcr.io/${{ github.repository_owner }}/my-app:latest"
 
           # 새로운 컨테이너 실행 (포트 매핑)
-          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker run -d --name my-express-app -p 3000:3000 ghcr.io/${{ github.repository_owner }}/my-express-app:latest"
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST "docker run -d --name my-app -p 3000:3000 ghcr.io/${{ github.repository_owner }}/my-app:latest"
